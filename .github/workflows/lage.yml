@@ -44,6 +44,7 @@ jobs:
       - name: Lauf
         env:
           ZUSTAND_SCHLUESSEL: ${{ secrets.ZUSTAND_SCHLUESSEL }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GH_TOKEN: ${{ github.token }}
           LAUF_REPO: ${{ github.repository }}
           LAUF_ID: ${{ github.run_id }}

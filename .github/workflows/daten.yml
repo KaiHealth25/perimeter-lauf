@@ -6,8 +6,11 @@ name: Daten
 
 on:
   schedule:
-    # Reserve. Angestossen wird stuendlich von aussen.
-    - cron: "41 */6 * * *"
+    # Zweite Uhr neben dem Wecker. Angestossen wird stuendlich zur fuenften
+    # Minute von aussen, GitHubs Zeitplan ist unzuverlaessig, kostet hier aber
+    # nichts. Laeuft er zusaetzlich, schadet das nicht: nichts wird doppelt
+    # ausgewertet, und zwei Laeufe warten aufeinander.
+    - cron: "35 * * * *"
   workflow_dispatch:
     inputs:
       ref:

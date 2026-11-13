@@ -1,0 +1,61 @@
+# Huelle fuer den Lagelauf von Perimeter. Die Arbeit steht im privaten Code
+# (lauf/lage.sh), dieser Ablauf holt ihn nur und ruft ihn auf. Er liegt in
+# diesem oeffentlichen Repo, weil GitHub hier keine Minuten zaehlt.
+# Zustand und Protokoll sind verschlossen.
+name: Lage
+
+on:
+  schedule:
+    # Reserve. Angestossen wird um 04:15 und 16:15 UTC von aussen.
+    - cron: "37 5,17 * * *"
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Stand des Codes, sonst main
+        required: false
+        default: main
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: lage
+  cancel-in-progress: false
+
+jobs:
+  lauf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: KaiHealth25/perimeter
+          ref: ${{ inputs.ref || 'main' }}
+          ssh-key: ${{ secrets.CODE_KEY }}
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: tools/requirements.txt
+
+      - name: Lauf
+        env:
+          ZUSTAND_SCHLUESSEL: ${{ secrets.ZUSTAND_SCHLUESSEL }}
+          GH_TOKEN: ${{ github.token }}
+          LAUF_REPO: ${{ github.repository }}
+          LAUF_ID: ${{ github.run_id }}
+          LAUF_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          EREIGNIS: ${{ github.event_name }}
+        run: bash lauf/lage.sh
+
+      - name: Protokoll
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: protokoll
+          path: protokoll.bin
+          retention-days: 14
+          if-no-files-found: ignore

@@ -64,6 +64,9 @@ jobs:
           DATEN_SCHLUESSEL: ${{ secrets.DATEN_SCHLUESSEL }}
           DATEN_DEPLOY_KEY: ${{ secrets.DATEN_DEPLOY_KEY }}
           ZUSTAND_SCHLUESSEL: ${{ secrets.ZUSTAND_SCHLUESSEL }}
+          MITTEILUNG_SCHLUESSEL: ${{ secrets.MITTEILUNG_SCHLUESSEL }}
+          APNS_SCHLUESSEL: ${{ secrets.APNS_SCHLUESSEL }}
+          APNS_KEY_ID: ${{ secrets.APNS_KEY_ID }}
           GH_TOKEN: ${{ github.token }}
           LAUF_REPO: ${{ github.repository }}
           LAUF_ID: ${{ github.run_id }}

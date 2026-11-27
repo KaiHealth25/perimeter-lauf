@@ -17,6 +17,10 @@ on:
         description: Stand des Codes, sonst main
         required: false
         default: main
+      x_gross:
+        description: Grosser X-Lauf (24 Stunden zurueck), 1 = an
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -63,6 +67,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           # Der KI-Agent auf X (tools/x_spaeher.py, Runde 164). Ohne ruht er.
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+          X_GROSS: ${{ inputs.x_gross }}
           DATEN_SCHLUESSEL: ${{ secrets.DATEN_SCHLUESSEL }}
           DATEN_DEPLOY_KEY: ${{ secrets.DATEN_DEPLOY_KEY }}
           ZUSTAND_SCHLUESSEL: ${{ secrets.ZUSTAND_SCHLUESSEL }}
